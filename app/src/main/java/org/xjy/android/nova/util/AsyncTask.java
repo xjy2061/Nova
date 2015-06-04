@@ -228,8 +228,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
     public static final Executor SERIAL_EXECUTOR = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? new SerialExecutor() :
             Executors.newSingleThreadExecutor(sThreadFactory);
 
-    public static final Executor DUAL_THREAD_EXECUTOR =
-            Executors.newFixedThreadPool(2, sThreadFactory);
+    public static final Executor DUAL_THREAD_EXECUTOR = Executors.newFixedThreadPool(2, sThreadFactory);
 
     private static final int MESSAGE_POST_RESULT = 0x1;
     private static final int MESSAGE_POST_PROGRESS = 0x2;

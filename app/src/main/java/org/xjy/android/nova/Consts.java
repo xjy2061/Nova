@@ -3,7 +3,7 @@ package org.xjy.android.nova;
 public class Consts {
 
     public static final class BROADCAST_ACTIONS {
-
+        public static final String NETWORK_STATE_CHANGE = "nova.broadcast.action.NETWORK_STATE_CHANGE";
     }
 
     public static final class SHARED_PREFERS {
@@ -11,7 +11,7 @@ public class Consts {
     }
 
     public static final class REQUEST_CODES {
-
+        public static final int TAKE_PHOTO = 1001;
     }
 
 }
