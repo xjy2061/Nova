@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.v4.net.ConnectivityManagerCompat;
 
 import org.xjy.android.nova.util.PhoneInfoUtils;
 
@@ -54,7 +53,7 @@ public class NovaApplication extends Application {
         mRegisteredNetworkStateChangeListeners.remove(networkStateChangeListener);
     }
 
-    public static interface NetworkStateChangeListener {
+    public interface NetworkStateChangeListener {
         public void onNetworkStateChange(int oldState, int newState);
     }
 }
