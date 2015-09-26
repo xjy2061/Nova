@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-printmapping progard.map
+
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
