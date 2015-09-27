@@ -37,14 +37,15 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:process=":browser"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".gallery.ImageGalleryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
 
         <service android:name=".transfer.DownloadService" />
         <service android:name=".transfer.UploadService" />
 
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2" >
-        </activity>
+
     </application>
 
 </manifest>

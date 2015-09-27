@@ -69,11 +69,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mPlaceHolderFragment = PlaceholderFragment.newInstance(position + 1);
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, mPlaceHolderFragment)
-                .commit();
+        if (position == 0) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mPlaceHolderFragment = PlaceholderFragment.newInstance(position + 1);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mPlaceHolderFragment)
+                    .commit();
+        } else if (position == 1) {
+
+        }
+
     }
 
     public void onSectionAttached(int number) {
