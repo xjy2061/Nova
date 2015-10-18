@@ -10,11 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-
 import org.xjy.android.nova.MainActivity;
 import org.xjy.android.nova.R;
 import org.xjy.android.nova.widget.ZoomableDraweeView;
@@ -78,11 +73,11 @@ public class ImageGalleryActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ZoomableDraweeView zoomableDraweeView = new ZoomableDraweeView(container.getContext());
-            GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(mResources).setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE).setProgressBarImage(new ProgressBarDrawable()).setRetryImage(mResources.getDrawable(R.drawable.icn_load_pic_fail)).build();
-            zoomableDraweeView.setHierarchy(hierarchy);
+//            GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(mResources).setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE).setProgressBarImage(new ProgressBarDrawable()).setRetryImage(mResources.getDrawable(R.drawable.icn_load_pic_fail)).build();
+//            zoomableDraweeView.setHierarchy(hierarchy);
 //			zoomableDraweeView.setLayoutParams(new ViewGroup.LayoutParams(mImageWidth, mImageHeight));
             container.addView(zoomableDraweeView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            loadImage(zoomableDraweeView, position, false);
+//            loadImage(zoomableDraweeView, position, false);
             return zoomableDraweeView;
         }
 

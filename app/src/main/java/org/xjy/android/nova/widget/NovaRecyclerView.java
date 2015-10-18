@@ -120,7 +120,7 @@ public class NovaRecyclerView extends RecyclerView {
             GridLayoutManager.SpanSizeLookup spanSizeLookup = layout.getSpanSizeLookup();
             layout.setSpanSizeLookup(new NovaSpanSizeLookupDelegate(spanSizeLookup, layout.getSpanCount(), adapter));
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            //TODO
+            //IMPROVE
         }
     }
 
@@ -265,7 +265,7 @@ public class NovaRecyclerView extends RecyclerView {
             mMinHeight = minHeight;
             LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(CENTER_IN_PARENT);
-            addView(new ProgressBar(context), layoutParams);
+            addView(new ProgressBar(context, null), layoutParams);
         }
 
         @Override
@@ -456,16 +456,18 @@ public class NovaRecyclerView extends RecyclerView {
         int mDividerColor;
         int mDividerMarginLeft;
         int mDividerMarginRight;
+        boolean mNeedOffset;
 
         public NovaViewHolder(View itemView) {
             super(itemView);
         }
 
-        public void setDivider(int dividerHeight, int dividerColor, int dividerMarginLeft, int dividerMarginRight) {
+        public void setDivider(int dividerHeight, int dividerColor, int dividerMarginLeft, int dividerMarginRight, boolean needOffset) {
             mDividerHeight = dividerHeight;
             mDividerColor = dividerColor;
             mDividerMarginLeft = dividerMarginLeft;
             mDividerMarginRight = dividerMarginRight;
+            mNeedOffset = needOffset;
         }
 
     }
@@ -558,11 +560,13 @@ public class NovaRecyclerView extends RecyclerView {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             NovaViewHolder viewHolder = (NovaViewHolder) parent.getChildViewHolder(view);
-            int orientation = getOrientation(parent);
-            if (orientation == OrientationHelper.VERTICAL) {
-                outRect.set(0, 0, 0, viewHolder.mDividerHeight);
-            } else {
-                outRect.set(0, 0, viewHolder.mDividerHeight, 0);
+            if (viewHolder.mNeedOffset) {
+                int orientation = getOrientation(parent);
+                if (orientation == OrientationHelper.VERTICAL) {
+                    outRect.set(0, 0, 0, viewHolder.mDividerHeight);
+                } else {
+                    outRect.set(0, 0, viewHolder.mDividerHeight, 0);
+                }
             }
         }
 
