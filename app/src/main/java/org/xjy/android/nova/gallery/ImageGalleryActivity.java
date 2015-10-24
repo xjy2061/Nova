@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.xjy.android.nova.MainActivity;
 import org.xjy.android.nova.R;
 import org.xjy.android.nova.widget.ZoomableDraweeView;
 
@@ -88,7 +87,7 @@ public class ImageGalleryActivity extends AppCompatActivity {
     }
 
     public static void launch(Activity activity, ArrayList<String> uris, int position) {
-        Intent intent = new Intent(activity, MainActivity.class);
+        Intent intent = new Intent(activity, ImageGalleryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra(EXTRA_URIS, uris);
         intent.putExtra(EXTRA_POSITION, position);
