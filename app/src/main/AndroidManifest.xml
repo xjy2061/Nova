@@ -32,7 +32,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".BrowserActivity"
+            android:name=".webview.BrowserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:process=":browser"
             android:screenOrientation="portrait" />
