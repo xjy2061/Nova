@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.xjy.android.nova" >
+    package="org.xjy.android.nova">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,13 +13,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,22 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".webview.BrowserActivity"
+            android:name=".ui.BrowserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:process=":browser"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".gallery.ImageGalleryActivity"
+            android:name=".ui.ImageGalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-
-        <service android:name=".transfer.DownloadService" />
-        <service android:name=".transfer.UploadService" />
     </application>
-
 </manifest>

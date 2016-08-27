@@ -1,8 +1,0 @@
-<resources>
-
-    <style name="SplashTheme" parent="android:Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@color/splash_window</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-
-</resources>

@@ -19,7 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.xjy.android.nova.R;
-import org.xjy.android.nova.util.NovaLoader;
+import org.xjy.android.nova.utils.NovaLoader;
+import org.xjy.android.nova.utils.NovaUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +160,7 @@ public class NovaRecyclerView extends RecyclerView {
             Context context = getContext();
             RelativeLayout loadView = new RelativeLayout(context);
             loadView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            loadView.addView(new LoadView(context, context.getResources().getDimensionPixelSize(R.dimen.loadViewHeight)));
+            loadView.addView(new LoadView(context, NovaUtils.dpToPx(60)));
             mAdapter.setLoadView(loadView);
         } else {
             mAdapter.showLoadView();
@@ -330,12 +331,12 @@ public class NovaRecyclerView extends RecyclerView {
             return mEmptyView;
         }
 
-        public void setEmptyView(RelativeLayout emptyView) {
+        private void setEmptyView(RelativeLayout emptyView) {
             mEmptyView = emptyView;
             notifyItemInserted(mItems.size());
         }
 
-        public void showEmptyView(CharSequence content) {
+        private void showEmptyView(CharSequence content) {
             EmptyView emptyView = (EmptyView) mEmptyView.getChildAt(0);
             emptyView.setText(content);
             emptyView.setVisibility(View.VISIBLE);

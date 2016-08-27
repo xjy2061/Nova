@@ -1,11 +1,10 @@
 <resources>
-    <string name="app_name">Nova</string>
+    <string name="app_name">NOVA</string>
 
-    <string name="dummy_content">NOVA</string>
-    <string name="title_activity_main">MainActivity</string>
-
+    <string name="title_activity_main">首页</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="internal_storage_full">内部存储空间已满</string>
+    <string name="database_operation_failed">数据库操作失败</string>
 </resources>

@@ -43,4 +43,6 @@ public class BitmapUtils {
         return 1;
     }
 
+    //scale decode
+
 }

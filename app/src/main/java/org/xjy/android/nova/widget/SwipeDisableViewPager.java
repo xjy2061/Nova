@@ -24,5 +24,4 @@ public class SwipeDisableViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
         return false;
     }
-
 }
