@@ -6,14 +6,13 @@ import android.os.Looper;
 import android.support.v4.content.AsyncTaskLoader;
 
 public abstract class NovaLoader<D> extends AsyncTaskLoader<D> {
-    private Handler mHandler;
+    private static Handler sHandler;
 
     private volatile Throwable mError;
     private Interceptor mInterceptor;
 
     public NovaLoader(Context context) {
         super(context);
-        mHandler = new Handler(Looper.getMainLooper());
     }
 
     public void setInterceptor(Interceptor interceptor) {
@@ -30,6 +29,7 @@ public abstract class NovaLoader<D> extends AsyncTaskLoader<D> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void deliverResult(D data) {
         if (mError == null) {
@@ -46,8 +46,9 @@ public abstract class NovaLoader<D> extends AsyncTaskLoader<D> {
         }
     }
 
+    @SuppressWarnings({"unused", "unchecked"})
     public void publishProgress(final D data) {
-        mHandler.post(new Runnable() {
+        getHandler().post(new Runnable() {
             @Override
             public void run() {
                 if (mInterceptor != null) {
@@ -62,7 +63,16 @@ public abstract class NovaLoader<D> extends AsyncTaskLoader<D> {
 
     public abstract void onError(Throwable error);
 
-    protected void onProgressUpdate(D data) {
+    @SuppressWarnings("unused")
+    protected void onProgressUpdate(D data) {}
+
+    private static Handler getHandler() {
+        synchronized (NovaLoader.class) {
+            if (sHandler == null) {
+                sHandler = new Handler(Looper.getMainLooper());
+            }
+            return sHandler;
+        }
     }
 
     public interface Interceptor<D> {
