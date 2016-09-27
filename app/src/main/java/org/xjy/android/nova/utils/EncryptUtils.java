@@ -13,7 +13,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptUtils {
-    private static final String TAG = "AESCrypt";
+    private static final String TAG = "EncryptUtils";
 
     //uses CBC and PKCS7Padding
     private static final String AES_MODE = "AES/CBC/PKCS7Padding";
@@ -27,6 +27,17 @@ public class EncryptUtils {
 
     //togglable log option (please turn off in live!)
     public static boolean DEBUG_LOG_ENABLED = false;
+
+    public static String md5(byte[] data) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(data);
+            return bytesToHex(messageDigest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     /**
      * Generates SHA256 hash of the password which is used as key
@@ -44,7 +55,6 @@ public class EncryptUtils {
 
         return new SecretKeySpec(key, "AES");
     }
-
 
     /**
      * Encrypt and encode message using 256-bit AES with key generated from password.
@@ -165,7 +175,7 @@ public class EncryptUtils {
      * Converts byte array to hexidecimal useful for logging and fault finding
      */
     public static String bytesToHex(byte[] bytes) {
-        final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         char[] hexChars = new char[bytes.length * 2];
         int v;
         for (int j = 0; j < bytes.length; j++) {
