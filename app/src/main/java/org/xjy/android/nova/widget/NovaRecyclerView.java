@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.xjy.android.nova.utils.DimensionUtils;
 import org.xjy.android.nova.utils.NovaLoader;
-import org.xjy.android.nova.utils.NovaUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -345,7 +345,7 @@ public class NovaRecyclerView extends RecyclerView {
                 Context context = parent.getContext();
                 RelativeLayout loadItemView = new RelativeLayout(context);
                 loadItemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                loadItemView.addView(new LoadView(context, NovaUtils.dpToPx(60)));
+                loadItemView.addView(new LoadView(context, DimensionUtils.dpToPx(60)));
                 return new NovaViewHolder(loadItemView);
             } else if (viewType == VIEW_TYPES.PLACEHOLDER) {
                 View view = new View(parent.getContext());
@@ -910,6 +910,10 @@ public class NovaRecyclerView extends RecyclerView {
 
         void onCollapse();
     }
+
+//    public static class DragDropAdapter extends NovaAdapter {
+//
+//    }
 
 //    public static class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 //        private NovaAdapter mAdapter;

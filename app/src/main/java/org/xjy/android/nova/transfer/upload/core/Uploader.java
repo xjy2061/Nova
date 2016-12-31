@@ -183,6 +183,7 @@ public class Uploader {
                 if (offset == ERROR_TOKEN_EXPIRED) {
                     return ERROR_UPLOAD_SERVER;
                 } else if (offset == ERROR_CACHE_EXPIRED) {
+                    offset = 0;
                     context = null;
                     UploadDao.getInstance().updateContext(path, null);
                 } else {
