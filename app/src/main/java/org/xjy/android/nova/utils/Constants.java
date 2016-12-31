@@ -21,5 +21,6 @@ public class Constants {
 
     public static final class REQUEST_CODES {
         public static final int TAKE_PHOTO = 1001;
+        public static final int BROWSE_IMAGE = 1002;
     }
 }

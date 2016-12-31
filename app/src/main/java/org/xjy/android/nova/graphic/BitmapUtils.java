@@ -2,12 +2,13 @@ package org.xjy.android.nova.graphic;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.util.Pair;
 
 public class BitmapUtils {
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static int getBitmapSize(BitmapDrawable value) {
         Bitmap bitmap = value.getBitmap();
 
@@ -43,6 +44,11 @@ public class BitmapUtils {
         return 1;
     }
 
-    //scale decode
+    public static Pair<Integer, Integer> decodeDimensions(String path) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        return Pair.create(options.outWidth, options.outHeight);
+    }
 
 }
