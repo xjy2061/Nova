@@ -10,14 +10,14 @@ import android.net.ConnectivityManager;
 import org.xjy.android.nova.utils.AsyncTask;
 import org.xjy.android.nova.utils.DeviceInfoUtils;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class NovaApplication extends Application {
 
     private static NovaApplication sNovaApplication;
 
     private volatile int mNetworkState;
-    private LinkedList<NetworkStateChangeListener> mRegisteredNetworkStateChangeListeners = new LinkedList<NetworkStateChangeListener>();
+    private ArrayList<NetworkStateChangeListener> mNetworkStateChangeListeners = new ArrayList<>();
 
     public NovaApplication() {
         super();
@@ -41,8 +41,8 @@ public class NovaApplication extends Application {
             public void onReceive(Context context, Intent intent) {
                 int networkState = DeviceInfoUtils.getNetworkState(context);
                 if (networkState != mNetworkState) { //onReceive called multiple times
-                    for (NetworkStateChangeListener networkStateChangeListener : mRegisteredNetworkStateChangeListeners) {
-                        networkStateChangeListener.onNetworkStateChange(mNetworkState, networkState);
+                    for (int i = 0, size = mNetworkStateChangeListeners.size(); i < size; i++) {
+                        mNetworkStateChangeListeners.get(i).onNetworkStateChange(mNetworkState, networkState);
                     }
                     mNetworkState = networkState;
                 }
@@ -56,14 +56,14 @@ public class NovaApplication extends Application {
     }
 
     public void registerNetworkStateChangeListener(NetworkStateChangeListener networkStateChangeListener) {
-        mRegisteredNetworkStateChangeListeners.add(networkStateChangeListener);
+        mNetworkStateChangeListeners.add(networkStateChangeListener);
     }
 
     public void unRegisterNetworkStateChangeListener(NetworkStateChangeListener networkStateChangeListener) {
-        mRegisteredNetworkStateChangeListeners.remove(networkStateChangeListener);
+        mNetworkStateChangeListeners.remove(networkStateChangeListener);
     }
 
     public interface NetworkStateChangeListener {
-        public void onNetworkStateChange(int oldState, int newState);
+        void onNetworkStateChange(int oldState, int newState);
     }
 }
