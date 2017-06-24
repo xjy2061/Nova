@@ -12,8 +12,12 @@ public class DimensionUtils {
     public static final float SCREEN_WIDTH = DISPLAY_METRICS.widthPixels < DISPLAY_METRICS.heightPixels ? DISPLAY_METRICS.widthPixels : DISPLAY_METRICS.heightPixels;
     public static final float SCREEN_HEIGHT = DISPLAY_METRICS.widthPixels < DISPLAY_METRICS.heightPixels ? DISPLAY_METRICS.heightPixels : DISPLAY_METRICS.widthPixels;
 
-    public static int dpToPx(float dp) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, DISPLAY_METRICS) + 0.5);
+    public static float dpToPx(float dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, DISPLAY_METRICS);
+    }
+
+    public static int dpToIntPx(float dp) {
+        return (int) (dpToPx(dp) + 0.5);
     }
 
     public static float pxToDp(int px) {

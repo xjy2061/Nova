@@ -92,7 +92,7 @@ public class ImageChooserActivity extends AppCompatActivity {
         final GridLayoutManager.SpanSizeLookup spanSizeLookup = layoutManager.getSpanSizeLookup();
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        final int space4dp = DimensionUtils.dpToPx(4);
+        final int space4dp = DimensionUtils.dpToIntPx(4);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -102,7 +102,7 @@ public class ImageChooserActivity extends AppCompatActivity {
                 outRect.top = space4dp;
             }
         });
-        mRecyclerView.addPlaceholderView(DimensionUtils.dpToPx(57));
+        mRecyclerView.addPlaceholderView(DimensionUtils.dpToIntPx(57));
         mRecyclerView.enableLoadMore();
         mAdapter = new PictureAdapter();
         mRecyclerView.setAdapter(mAdapter);
@@ -289,15 +289,15 @@ public class ImageChooserActivity extends AppCompatActivity {
         private int mImageSize;
 
         public PictureAdapter() {
-            mImageSize = Math.round((getResources().getDisplayMetrics().widthPixels - DimensionUtils.dpToPx(8)) / 3 + 0.5f);
+            mImageSize = Math.round((getResources().getDisplayMetrics().widthPixels - DimensionUtils.dpToIntPx(8)) / 3 + 0.5f);
         }
 
         @Override
         public NovaRecyclerView.NovaViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {
             if (viewType == VIEW_TYPES.CAMERA) {
-                return new CameraViewHolder(LayoutInflater.from(ImageChooserActivity.this).inflate(R.layout.picture_chooser_camera, parent, false), mImageSize);
+                return new CameraViewHolder(LayoutInflater.from(ImageChooserActivity.this).inflate(R.layout.image_chooser_camera, parent, false), mImageSize);
             } else {
-                return new PictureViewHolder(LayoutInflater.from(ImageChooserActivity.this).inflate(R.layout.picture_chooser_item, parent, false), mImageSize);
+                return new PictureViewHolder(LayoutInflater.from(ImageChooserActivity.this).inflate(R.layout.image_chooser_item, parent, false), mImageSize);
             }
         }
 

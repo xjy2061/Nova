@@ -8,6 +8,6 @@ public class TransferUtils {
     }
 
     public static Pair<Integer, Integer> unParcelInt(long parcel) {
-        return new Pair<Integer, Integer>((int) (parcel >> 32), (int) parcel);
+        return new Pair<>((int) (parcel >> 32), (int) parcel);
     }
 }

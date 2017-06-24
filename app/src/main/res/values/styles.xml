@@ -9,7 +9,7 @@
     </style>
 
     <style name="SplashTheme" parent="android:Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@color/splash_window</item>
+        <item name="android:windowBackground">@color/splashWindow</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

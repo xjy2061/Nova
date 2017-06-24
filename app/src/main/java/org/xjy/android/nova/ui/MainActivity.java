@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static void launch(Activity activity) {
-        Intent intent = new Intent(activity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
+        activity.startActivity(new Intent(activity, MainActivity.class));
     }
 }

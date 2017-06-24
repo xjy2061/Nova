@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     useLibrary "org.apache.http.legacy"
 
     defaultConfig {
@@ -13,11 +13,26 @@ android {
         versionName "1.0.0"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    flavorDimensions "dev"
+    productFlavors {
+        dev {
+            minSdkVersion 21
+            resConfigs("en", "xxhdpi")
+        }
+    }
+
+    if (project.hasProperty("devBuild")) {
+//        splits.abi.enable = false
+//        splits.density.enable = false
+        aaptOptions.cruncherEnabled = false
     }
 
     dexOptions {
@@ -29,13 +44,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.xjy.android.novaimageloader:novaimageloader:0.14.1'
     compile 'org.xjy.android.novaimageloader:animated-gif:0.14.1'
     compile 'org.xjy.android.novaimageloader:animated-webp:0.14.1'
     compile 'org.xjy.android.novaimageloader:webpsupport:0.14.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.5.7'
 }

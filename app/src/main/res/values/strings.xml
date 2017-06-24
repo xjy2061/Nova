@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">NOVA</string>
 
-    <string name="title_activity_main">首页</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
     <string name="internal_storage_full">内部存储空间已满</string>
     <string name="database_operation_failed">数据库操作失败</string>
     <string name="photo">照片</string>
@@ -13,4 +9,10 @@
     <string name="preview">预览</string>
     <string name="no_camera_app">未找到相机程序</string>
     <string name="illegal_image_size">图片太小</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

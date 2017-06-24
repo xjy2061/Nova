@@ -345,7 +345,7 @@ public class NovaRecyclerView extends RecyclerView {
                 Context context = parent.getContext();
                 RelativeLayout loadItemView = new RelativeLayout(context);
                 loadItemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                loadItemView.addView(new LoadView(context, DimensionUtils.dpToPx(60)));
+                loadItemView.addView(new LoadView(context, DimensionUtils.dpToIntPx(60)));
                 return new NovaViewHolder(loadItemView);
             } else if (viewType == VIEW_TYPES.PLACEHOLDER) {
                 View view = new View(parent.getContext());
