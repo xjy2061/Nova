@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,12 +25,14 @@ public class MeteorDrawable extends Drawable implements Animatable {
     private AnimatorSet mTopAnimator;
     private AnimatorSet mRightAnimator;
     private AnimatorSet mBottomAnimator;
+    private Handler mHandler;
 
-    public MeteorDrawable(int strokeWidth) {
+    public MeteorDrawable(float strokeWidth) {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(strokeWidth);
+        mHandler = new Handler();
     }
 
     @Override
@@ -40,6 +43,27 @@ public class MeteorDrawable extends Drawable implements Animatable {
             mTopAnimator = createRoundAnimator(bounds.left, bounds.right, 570, 830, 230);
             mRightAnimator = createAnimator(bounds.bottom, bounds.top, 570, 230);
             mBottomAnimator = createRoundAnimator(bounds.right, bounds.left, 570, 830, 230);
+            mBottomAnimator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {}
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            start();
+                        }
+                    }, 1500);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            });
+            start();
         }
 
         drawLine(mLeftAnimator, bounds.left, false, canvas);
@@ -148,6 +172,7 @@ public class MeteorDrawable extends Drawable implements Animatable {
             mTopAnimator.end();
             mRightAnimator.end();
             mBottomAnimator.end();
+            mHandler.removeCallbacksAndMessages(null);
         }
     }
 

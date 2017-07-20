@@ -21,7 +21,7 @@ android {
         }
     }
 
-    flavorDimensions "dev"
+//    flavorDimensions "dev"
     productFlavors {
         dev {
             minSdkVersion 21
@@ -52,6 +52,7 @@ dependencies {
     compile 'org.xjy.android.novaimageloader:animated-gif:0.14.1'
     compile 'org.xjy.android.novaimageloader:animated-webp:0.14.1'
     compile 'org.xjy.android.novaimageloader:webpsupport:0.14.1'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.5.7'
 }
