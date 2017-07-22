@@ -128,6 +128,9 @@ public class SimplePlayback {
             mMediaPlayer.setDataSource(mContext, uri);
         } catch (Exception e) {
             e.printStackTrace();
+            if (mCallback != null) {
+                mCallback.onError(mMediaPlayer, 0, 0);
+            }
             releaseResources(true);
             return;
         }
@@ -142,9 +145,6 @@ public class SimplePlayback {
         tryToGetAudioFocus();
         registerAudioNoisyReceiver();
         configurePlayerState();
-        if (mCallback != null) {
-            mCallback.onStart();
-        }
     }
 
     public void stop() {
@@ -249,6 +249,9 @@ public class SimplePlayback {
             if (mPlayOnFocusGain) {
                 try {
                     mMediaPlayer.start();
+                    if (mCallback != null) {
+                        mCallback.onStart();
+                    }
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
@@ -259,9 +262,10 @@ public class SimplePlayback {
 
     private void releaseResources(boolean releasePlayer) {
         if (releasePlayer && mMediaPlayer != null) {
-            mMediaPlayer.release();
             mMediaPlayer.setOnPreparedListener(null);
+            mMediaPlayer.setOnCompletionListener(null);
             mMediaPlayer.setOnErrorListener(null);
+            mMediaPlayer.release();
             mMediaPlayer = null;
             mPlayOnFocusGain = false;
         }
