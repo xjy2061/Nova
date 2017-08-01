@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 public class SimplePlayback {
     private static final float VOLUME_DUCK = 0.2f;
@@ -34,7 +36,7 @@ public class SimplePlayback {
     private final MediaPlayer.OnErrorListener mOnErrorListener;
 
     private MediaPlayer mMediaPlayer;
-    private Uri mUri;
+    private Object mDataSource;
     private boolean mLooping;
     private Callback mCallback;
 
@@ -90,7 +92,7 @@ public class SimplePlayback {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 if (mLooping) {
-                    play(mUri);
+                    play(mDataSource);
                 }
             }
         };
@@ -106,7 +108,7 @@ public class SimplePlayback {
         };
     }
 
-    public void play(Uri uri) {
+    public void play(Object dataSource) {
         releaseResources(false);
 
         if (mMediaPlayer == null) {
@@ -123,9 +125,16 @@ public class SimplePlayback {
         }
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mUri = uri;
+        mDataSource = dataSource;
         try {
-            mMediaPlayer.setDataSource(mContext, uri);
+            if (dataSource instanceof Uri) {
+                mMediaPlayer.setDataSource(mContext, (Uri) dataSource);
+            } else if (dataSource instanceof AssetFileDescriptor) {
+                AssetFileDescriptor fd = (AssetFileDescriptor) dataSource;
+                mMediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+            } else {
+                Log.e("ARPlayback", "Illegal data source type!");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if (mCallback != null) {
@@ -137,7 +146,11 @@ public class SimplePlayback {
 
         mWifiLock.acquire();
 
-        mMediaPlayer.prepareAsync();
+        try {
+            mMediaPlayer.prepareAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() {
