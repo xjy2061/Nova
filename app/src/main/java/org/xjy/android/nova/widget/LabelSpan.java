@@ -35,12 +35,13 @@ public class LabelSpan extends ReplacementSpan {
             mText = text.subSequence(start, end);
         }
         Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
-        mSpanTop = fontMetrics.descent + fontMetrics.ascent;
+        mSpanTop = fontMetrics.ascent - fontMetrics.top;
+        int height = fontMetrics.descent - fontMetrics.ascent;
         paint.setTextSize(mTextSize);
-        mSpanWidth = (int) paint.measureText(text, start, end) + mPaddingLeft + mPaddingRight;
+        mSpanWidth = (int) paint.measureText(mText == null ? text : mText, start, end) + mPaddingLeft + mPaddingRight;
         fontMetrics = paint.getFontMetricsInt();
         mSpanHeight = fontMetrics.bottom - fontMetrics.top + mPaddingTop + mPaddingBottom;
-        mSpanTop = (mSpanTop - mSpanHeight) / 2;
+        mSpanTop += (height - mSpanHeight) / 2;
         return mSpanWidth;
     }
 
@@ -48,7 +49,8 @@ public class LabelSpan extends ReplacementSpan {
     public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, @NonNull Paint paint) {
         paint.setColor(mStrokeColor);
         paint.setStyle(Paint.Style.STROKE);
-        mSpanTop = mSpanTop + y;
+        paint.setTextSize(mTextSize);
+        mSpanTop = mSpanTop + top;
         canvas.drawRect(x, mSpanTop, x + mSpanWidth, mSpanTop + mSpanHeight, paint);
         canvas.drawText(mText != null ? mText : text, start, end, x + mPaddingLeft, mSpanTop + mPaddingTop - paint.getFontMetrics().top, paint);
     }
