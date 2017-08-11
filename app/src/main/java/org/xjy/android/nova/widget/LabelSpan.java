@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.style.ReplacementSpan;
 
 public class LabelSpan extends ReplacementSpan {
-    private int mStrokeColor;
+    private int mTextColor;
     private int mTextSize;
     private int mPaddingLeft;
     private int mPaddingTop;
@@ -18,7 +18,7 @@ public class LabelSpan extends ReplacementSpan {
     private int mSpanTop;
 
     public LabelSpan(int strokeColor, int textSize) {
-        mStrokeColor = strokeColor;
+        mTextColor = strokeColor;
         mTextSize = textSize;
     }
 
@@ -47,7 +47,7 @@ public class LabelSpan extends ReplacementSpan {
 
     @Override
     public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, @NonNull Paint paint) {
-        paint.setColor(mStrokeColor);
+        paint.setColor(mTextColor);
         paint.setStyle(Paint.Style.STROKE);
         paint.setTextSize(mTextSize);
         mSpanTop = mSpanTop + top;
