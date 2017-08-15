@@ -70,7 +70,7 @@ public class NovaRecyclerView extends RecyclerView {
                     }
 
                     if (!mLoadingMore && (firstVisibleItemPosition + visibleItemCount) >= itemCount - 1) {
-                        load();
+                        load(true);
                     }
                 }
             }
@@ -78,15 +78,15 @@ public class NovaRecyclerView extends RecyclerView {
     }
 
     public void setAdapter(NovaAdapter adapter) {
-        mAdapter = adapter;
-        super.setAdapter(adapter);
         LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null) {
             delegateSpanSizeLookup(layoutManager, adapter);
         }
+        mAdapter = adapter;
         if (mPlaceholderViewHeight > 0) {
             mAdapter.setPlaceholderViewHeight(mPlaceholderViewHeight);
         }
+        super.setAdapter(adapter);
     }
 
     @Override
@@ -101,7 +101,9 @@ public class NovaRecyclerView extends RecyclerView {
         if (layoutManager instanceof GridLayoutManager) {
             GridLayoutManager localLayoutManager = (GridLayoutManager) layoutManager;
             GridLayoutManager.SpanSizeLookup spanSizeLookup = localLayoutManager.getSpanSizeLookup();
-            localLayoutManager.setSpanSizeLookup(new NovaSpanSizeLookupDelegate(spanSizeLookup, localLayoutManager.getSpanCount(), adapter));
+            if (!(spanSizeLookup instanceof NovaSpanSizeLookupDelegate)) {
+                localLayoutManager.setSpanSizeLookup(new NovaSpanSizeLookupDelegate(spanSizeLookup, localLayoutManager.getSpanCount(), adapter));
+            }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
             //IMPROVE
         }
@@ -135,10 +137,12 @@ public class NovaRecyclerView extends RecyclerView {
         });
     }
 
-    public void load() {
+    public void load(boolean showLoad) {
         mLoadingMore = true;
         mAdapter.hideEmptyView();
-        mAdapter.showLoadView();
+        if (showLoad) {
+            mAdapter.showLoadView(this);
+        }
         mLoader.forceLoad();
     }
 
@@ -268,7 +272,7 @@ public class NovaRecyclerView extends RecyclerView {
         }
 
         public void addItems(List<T> items) {
-            int insertPosition = mItems.size();
+            int insertPosition = getNormalItemCount();
             mItems.addAll(items);
             notifyItemRangeInserted(insertPosition, items.size());
         }
@@ -300,13 +304,17 @@ public class NovaRecyclerView extends RecyclerView {
             }
         }
 
-        void showLoadView() {
+        void showLoadView(NovaRecyclerView recyclerView) {
             mShowLoadView = true;
             if (!mHasLoadView) {
                 mHasLoadView = true;
-                notifyItemInserted(getLoadViewAdapterPosition());
+                if (!recyclerView.isComputingLayout()) {
+                    notifyItemInserted(getLoadViewAdapterPosition());
+                }
             } else {
-                notifyItemChanged(getLoadViewAdapterPosition());
+                if (!recyclerView.isComputingLayout()) {
+                    notifyItemChanged(getLoadViewAdapterPosition());
+                }
             }
         }
 
@@ -318,11 +326,11 @@ public class NovaRecyclerView extends RecyclerView {
         }
 
         private int getEmptyViewAdapterPosition() {
-            return mItems.size();
+            return getNormalItemCount();
         }
 
         private int getLoadViewAdapterPosition() {
-            return mHasEmptyView ? mItems.size() + 1 : mItems.size();
+            return mHasEmptyView ? getNormalItemCount() + 1 : getNormalItemCount();
         }
 
         void setPlaceholderViewHeight(int placeholderViewHeight) {

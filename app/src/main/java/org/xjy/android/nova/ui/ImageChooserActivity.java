@@ -200,7 +200,7 @@ public class ImageChooserActivity extends AppCompatActivity {
             }
         };
         checkChanged();
-        mRecyclerView.load();
+        mRecyclerView.load(true);
     }
 
     @Override
@@ -443,7 +443,7 @@ public class ImageChooserActivity extends AppCompatActivity {
                         mToggleBtn.setText(bucket.name);
                         mRecyclerView.reset();
                         mRecyclerView.enableLoadMore();
-                        mRecyclerView.load();
+                        mRecyclerView.load(true);
                     }
                 }
             });
