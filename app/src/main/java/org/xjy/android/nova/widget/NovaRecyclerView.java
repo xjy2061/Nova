@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.xjy.android.nova.utils.DimensionUtils;
 import org.xjy.android.nova.utils.NovaLoader;
@@ -139,7 +139,7 @@ public class NovaRecyclerView extends RecyclerView {
 
     public void load(boolean showLoad) {
         mLoadingMore = true;
-        mAdapter.hideEmptyView();
+        mAdapter.hideEmptyView(this);
         if (showLoad) {
             mAdapter.showLoadView(this);
         }
@@ -157,10 +157,6 @@ public class NovaRecyclerView extends RecyclerView {
 
     public void showEmptyView(CharSequence content, OnClickListener onClickListener) {
         mAdapter.showEmptyView(content, onClickListener);
-    }
-
-    public void hideEmptyView() {
-        mAdapter.hideEmptyView();
     }
 
     public void hideLoadView() {
@@ -202,7 +198,7 @@ public class NovaRecyclerView extends RecyclerView {
         return viewType == VIEW_TYPES.EMPTY || viewType == VIEW_TYPES.LOAD || viewType == VIEW_TYPES.PLACEHOLDER;
     }
 
-    private static class EmptyView extends TextView {
+    private static class EmptyView extends AppCompatTextView {
 
         public EmptyView(Context context) {
             super(context);
@@ -297,10 +293,12 @@ public class NovaRecyclerView extends RecyclerView {
             }
         }
 
-        void hideEmptyView() {
+        void hideEmptyView(NovaRecyclerView recyclerView) {
             if (mHasEmptyView) {
                 mShowEmptyView = false;
-                notifyItemChanged(getEmptyViewAdapterPosition());
+                if (!recyclerView.isComputingLayout()) {
+                    notifyItemChanged(getEmptyViewAdapterPosition());
+                }
             }
         }
 
