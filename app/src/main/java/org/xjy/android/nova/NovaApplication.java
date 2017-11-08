@@ -1,18 +1,18 @@
 package org.xjy.android.nova;
 
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.multidex.MultiDexApplication;
 
 import org.xjy.android.nova.utils.AsyncTask;
 import org.xjy.android.nova.utils.DeviceInfoUtils;
 
 import java.util.ArrayList;
 
-public class NovaApplication extends Application {
+public class NovaApplication extends MultiDexApplication {
 
     private static NovaApplication sNovaApplication;
 
