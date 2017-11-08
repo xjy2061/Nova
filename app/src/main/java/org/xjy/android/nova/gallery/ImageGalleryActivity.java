@@ -1,4 +1,4 @@
-package org.xjy.android.nova.ui;
+package org.xjy.android.nova.gallery;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-
-import org.xjy.android.nova.R;
 
 import java.util.ArrayList;
 
@@ -29,7 +27,7 @@ public class ImageGalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        mUris = (ArrayList<String>) intent.getSerializableExtra(EXTRA_URIS);
+        mUris = intent.getStringArrayListExtra(EXTRA_URIS);
         mPosition = intent.getIntExtra(EXTRA_POSITION, 0);
         mResources = getResources();
 

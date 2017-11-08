@@ -1,4 +1,4 @@
-package org.xjy.android.nova.ui;
+package org.xjy.android.nova.gallery;
 
 import android.app.Activity;
 import android.content.ContentResolver;
