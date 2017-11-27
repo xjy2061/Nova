@@ -1,6 +1,7 @@
 package org.xjy.android.nova.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
@@ -32,8 +33,7 @@ public class RangeEllipsisTextView extends AppCompatTextView {
     }
 
     @Override
-    public boolean onPreDraw() {
-        boolean setEllipsisText = false;
+    protected void onDraw(Canvas canvas) {
         CharSequence originText = getText();
         int length = originText != null ? originText.length() : 0;
         if (length > 0 && mEllipsisEnd > mEllipsisStart && mEllipsisEnd - mEllipsisStart < length) {
@@ -61,7 +61,6 @@ public class RangeEllipsisTextView extends AppCompatTextView {
                         }
                     }
                     mEllipsisText = head + originString.substring(mEllipsisStart, i) + ELLIPSIS_STRING + tail;
-                    setEllipsisText = true;
                     setText(mEllipsisText);
                 } else {
                     mEllipsisText = originText;
@@ -69,6 +68,6 @@ public class RangeEllipsisTextView extends AppCompatTextView {
             }
             mTextWidth = textWidth;
         }
-        return !setEllipsisText && super.onPreDraw();
+        super.onDraw(canvas);
     }
 }
