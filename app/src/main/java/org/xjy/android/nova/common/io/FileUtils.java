@@ -92,4 +92,24 @@ public class FileUtils {
         Matcher matcher = pattern.matcher(filename);
         return matcher.find();
     }
+
+    public static void ensureDirectoryExist(File file, boolean isDirectory) {
+        boolean directoryExist = true;
+        File parent = file.getParentFile();
+        File directory = isDirectory ? file : parent;
+        while (!directory.exists()) {
+            directory = directory.getParentFile();
+            directoryExist = false;
+        }
+        if (!directory.isDirectory()) {
+            directory.delete();
+        }
+        if (!directoryExist) {
+            if (isDirectory) {
+                file.mkdirs();
+            } else {
+                parent.mkdirs();
+            }
+        }
+    }
 }
