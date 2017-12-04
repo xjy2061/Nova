@@ -6,13 +6,15 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 
 import org.xjy.android.nova.common.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 
 public class SimpleAudioRecorder {
+    private static final String TAG = "SimpleAudioRecorder";
+
     private static final int WHAT_START = 0;
     private static final int WHAT_STOP = 1;
     private static final int WHAT_RELEASE = 2;
@@ -89,49 +91,62 @@ public class SimpleAudioRecorder {
 
     private void startRecord(String outputFilePath) {
         if (mState != STATE_RELEASED) {
-            if (mRecorder == null) {
-                mRecorder = new MediaRecorder();
-                mRecorder.setAudioChannels(mChannels);
-                mRecorder.setAudioSamplingRate(mSampleRate);
-                mRecorder.setAudioEncodingBitRate(mEncodeBitRate);
-                mRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
-                    @Override
-                    public void onError(MediaRecorder mr, int what, int extra) {
-                        mState = STATE_ERROR;
-                        handleEvent(mCallback, STATE_ERROR, what, extra);
-                    }
-                });
-            } else {
-                mRecorder.reset();
-            }
-            mState = STATE_INITIAL;
-            mRecorder.setAudioSource(mSource);
-            mRecorder.setOutputFormat(mOutputFormat);
-            mRecorder.setAudioEncoder(mEncoder);
-            File file = new File(outputFilePath);
-            FileUtils.ensureDirectoryExist(file, false);
-            mRecorder.setOutputFile(outputFilePath);
             try {
+                if (mRecorder == null) {
+                    mRecorder = new MediaRecorder();
+                    mRecorder.setAudioChannels(mChannels);
+                    mRecorder.setAudioSamplingRate(mSampleRate);
+                    mRecorder.setAudioEncodingBitRate(mEncodeBitRate);
+                    mRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
+                        @Override
+                        public void onError(MediaRecorder mr, int what, int extra) {
+                            Log.e(TAG, "onError: " + what + " " + extra);
+                            mState = STATE_ERROR;
+                            handleEvent(mCallback, STATE_ERROR, what, extra);
+                        }
+                    });
+                } else {
+                    mRecorder.reset();
+                }
+                mState = STATE_INITIAL;
+                mRecorder.setAudioSource(mSource);
+                mRecorder.setOutputFormat(mOutputFormat);
+                mRecorder.setAudioEncoder(mEncoder);
+                File file = new File(outputFilePath);
+                FileUtils.ensureDirectoryExist(file, false);
+                mRecorder.setOutputFile(outputFilePath);
                 mRecorder.prepare();
-            } catch (IOException e) {
-                e.printStackTrace();
+                mRecorder.start();
+                mState = STATE_STARTED;
+            } catch (Throwable t) {
+                t.printStackTrace();
+                mState = STATE_ERROR;
+                handleEvent(mCallback, STATE_ERROR, 0, 0);
             }
-            mRecorder.start();
-            mState = STATE_STARTED;
         }
     }
 
     private void stopRecord(final Callback callback) {
         if (mState == STATE_STARTED && mRecorder != null) {
-            mRecorder.stop();
-            mState = STATE_STOPPED;
-            handleEvent(callback != null ? callback : mCallback, STATE_STOPPED, 0, 0);
+            try {
+                mRecorder.stop();
+                mState = STATE_STOPPED;
+                handleEvent(callback != null ? callback : mCallback, STATE_STOPPED, 0, 0);
+            } catch (Throwable t) {
+                t.printStackTrace();
+                mState = STATE_ERROR;
+                handleEvent(mCallback, STATE_ERROR, 0, 0);
+            }
         }
     }
 
     private void releaseRecorder() {
         if (mState != STATE_RELEASED && mRecorder != null) {
-            mRecorder.release();
+            try {
+                mRecorder.release();
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
             mRecorder = null;
             mState = STATE_RELEASED;
         }
