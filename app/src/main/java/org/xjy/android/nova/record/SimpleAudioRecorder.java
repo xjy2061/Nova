@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.xjy.android.nova.common.io.FileUtils;
@@ -14,6 +15,8 @@ import java.io.File;
 
 public class SimpleAudioRecorder {
     private static final String TAG = "SimpleAudioRecorder";
+
+    public static final int ERROR_PERMISSION_DENY = 1;
 
     private static final int WHAT_START = 0;
     private static final int WHAT_STOP = 1;
@@ -119,9 +122,10 @@ public class SimpleAudioRecorder {
                 mRecorder.start();
                 mState = STATE_STARTED;
             } catch (Throwable t) {
-                t.printStackTrace();
+                String msg = t.getMessage();
                 mState = STATE_ERROR;
-                handleEvent(mCallback, STATE_ERROR, 0, 0);
+                handleEvent(mCallback, STATE_ERROR, !TextUtils.isEmpty(msg) && msg.toLowerCase().contains("permission") ? ERROR_PERMISSION_DENY : 0, 0);
+                t.printStackTrace();
             }
         }
     }
