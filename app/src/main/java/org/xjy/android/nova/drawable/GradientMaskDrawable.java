@@ -11,9 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class GradientCoverDrawable extends Drawable {
-    private float mTopCoverHeight;
-    private float mBottomCoverHeight;
+public class GradientMaskDrawable extends Drawable {
+    private float mTopMaskHeight;
+    private float mBottomMaskHeight;
     private int mTopColorFrom;
     private int mTopColorTo;
     private int mBottomColorFrom;
@@ -24,13 +24,13 @@ public class GradientCoverDrawable extends Drawable {
     private LinearGradient mTopShader;
     private LinearGradient mBottomShader;
 
-    public GradientCoverDrawable(float topCoverHeight, float bottomCoverHeight, float radius, int colorFrom, int colorTo) {
-        this(topCoverHeight, bottomCoverHeight, radius, colorFrom, colorTo, colorFrom, colorTo);
+    public GradientMaskDrawable(float topMaskHeight, float bottomMaskHeight, float radius, int colorFrom, int colorTo) {
+        this(topMaskHeight, bottomMaskHeight, radius, colorFrom, colorTo, colorFrom, colorTo);
     }
 
-    public GradientCoverDrawable(float topCoverHeight, float bottomCoverHeight, float radius, int topColorFrom, int topColorTo, int bottomColorFrom, int bottomColorTo) {
-        mTopCoverHeight = topCoverHeight;
-        mBottomCoverHeight = bottomCoverHeight;
+    public GradientMaskDrawable(float topMaskHeight, float bottomMaskHeight, float radius, int topColorFrom, int topColorTo, int bottomColorFrom, int bottomColorTo) {
+        mTopMaskHeight = topMaskHeight;
+        mBottomMaskHeight = bottomMaskHeight;
         mRadius = radius;
         mTopColorFrom = topColorFrom;
         mTopColorTo = topColorTo;
@@ -41,25 +41,25 @@ public class GradientCoverDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         int width = canvas.getWidth();
-        if (mTopCoverHeight > 0) {
+        if (mTopMaskHeight > 0) {
             if (mTopShader == null) {
-                mTopShader = new LinearGradient(0, 0, 0, mTopCoverHeight, mTopColorFrom, mTopColorTo, Shader.TileMode.CLAMP);
+                mTopShader = new LinearGradient(0, 0, 0, mTopMaskHeight, mTopColorFrom, mTopColorTo, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(mTopShader);
-            mRect.set(0, 0, width, mTopCoverHeight);
+            mRect.set(0, 0, width, mTopMaskHeight);
             if (mRadius > 0) {
                 canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
             } else {
                 canvas.drawRect(mRect, mPaint);
             }
         }
-        if (mBottomCoverHeight > 0) {
+        if (mBottomMaskHeight > 0) {
             int height = canvas.getHeight();
             if (mBottomShader == null) {
-                mBottomShader = new LinearGradient(0, height - mBottomCoverHeight, 0, height, mBottomColorTo, mBottomColorFrom, Shader.TileMode.CLAMP);
+                mBottomShader = new LinearGradient(0, height - mBottomMaskHeight, 0, height, mBottomColorTo, mBottomColorFrom, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(mBottomShader);
-            mRect.set(0, height - mBottomCoverHeight, width, height);
+            mRect.set(0, height - mBottomMaskHeight, width, height);
             if (mRadius > 0) {
                 canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
             } else {
