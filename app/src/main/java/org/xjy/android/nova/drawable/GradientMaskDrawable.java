@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -40,13 +41,13 @@ public class GradientMaskDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        int width = canvas.getWidth();
+        Rect bounds = getBounds();
         if (mTopMaskHeight > 0) {
             if (mTopShader == null) {
-                mTopShader = new LinearGradient(0, 0, 0, mTopMaskHeight, mTopColorFrom, mTopColorTo, Shader.TileMode.CLAMP);
+                mTopShader = new LinearGradient(bounds.left, bounds.top, bounds.left, bounds.top + mTopMaskHeight, mTopColorFrom, mTopColorTo, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(mTopShader);
-            mRect.set(0, 0, width, mTopMaskHeight);
+            mRect.set(bounds.left, bounds.top, bounds.right, bounds.top + mTopMaskHeight);
             if (mRadius > 0) {
                 canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
             } else {
@@ -54,12 +55,11 @@ public class GradientMaskDrawable extends Drawable {
             }
         }
         if (mBottomMaskHeight > 0) {
-            int height = canvas.getHeight();
             if (mBottomShader == null) {
-                mBottomShader = new LinearGradient(0, height - mBottomMaskHeight, 0, height, mBottomColorTo, mBottomColorFrom, Shader.TileMode.CLAMP);
+                mBottomShader = new LinearGradient(bounds.left, bounds.bottom - mBottomMaskHeight, bounds.left, bounds.bottom, mBottomColorTo, mBottomColorFrom, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(mBottomShader);
-            mRect.set(0, height - mBottomMaskHeight, width, height);
+            mRect.set(bounds.left, bounds.bottom - mBottomMaskHeight, bounds.left, bounds.bottom);
             if (mRadius > 0) {
                 canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
             } else {
