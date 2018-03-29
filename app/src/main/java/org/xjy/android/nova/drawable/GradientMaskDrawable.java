@@ -59,7 +59,7 @@ public class GradientMaskDrawable extends Drawable {
                 mBottomShader = new LinearGradient(bounds.left, bounds.bottom - mBottomMaskHeight, bounds.left, bounds.bottom, mBottomColorTo, mBottomColorFrom, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(mBottomShader);
-            mRect.set(bounds.left, bounds.bottom - mBottomMaskHeight, bounds.left, bounds.bottom);
+            mRect.set(bounds.left, bounds.bottom - mBottomMaskHeight, bounds.right, bounds.bottom);
             if (mRadius > 0) {
                 canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
             } else {
